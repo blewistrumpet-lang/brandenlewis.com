@@ -468,6 +468,21 @@ section { position: relative; }
 /* 3:2 source in a 16:9 slot — bias the crop upward so both hats stay in. */
 .shot--band img { object-position: 50% 38%; }
 
+/* A gallery cell that carries a caption: the figure is the grid item, the
+   button inside it stays the thing you click to enlarge. */
+.shot-fig { margin: 0; }
+.shot-fig .shot { width: 100%; }
+.shot-cap {
+  margin-top: 0.9rem;
+  font-size: 0.78rem;
+  line-height: 1.55;
+  letter-spacing: 0.01em;
+  color: var(--muted-dim);
+}
+.shot-cap b { color: var(--paper); font-weight: 540; }
+.shot-cap span { display: inline-block; }
+@media (max-width: 560px) { .shot-cap span { display: block; } }
+
 .shot::after {
   content: '';
   position: absolute;
@@ -483,16 +498,18 @@ section { position: relative; }
   .shot--tall  { grid-column: span 2; grid-row: span 2; aspect-ratio: 2 / 3; }
   .shot--wide  { grid-column: span 4; aspect-ratio: 3 / 2; }
   .shot--sq    { grid-column: span 2; aspect-ratio: 1; }
-  .shot--band  { grid-column: span 6; aspect-ratio: 16 / 9; }
+  .shot--band  { aspect-ratio: 16 / 9; }
   .shot--half  { grid-column: span 4; aspect-ratio: 1878 / 1000; }
+  .shot-fig    { grid-column: span 6; }
 }
 @media (max-width: 779px) {
   /* Two columns: the squares pair up, everything else runs full-bleed so no
      odd-span item strands an empty cell beside it. */
   .shot { aspect-ratio: 1; }
   .shot--tall { grid-column: span 2; aspect-ratio: 4 / 5; }
-  .shot--band { grid-column: span 2; aspect-ratio: 3 / 2; }
+  .shot--band { aspect-ratio: 3 / 2; }
   .shot--wide, .shot--half { grid-column: span 2; aspect-ratio: 3 / 2; }
+  .shot-fig   { grid-column: span 2; }
 }
 
 /* ---------------------------------------------------------------- video */
