@@ -69,6 +69,39 @@
     });
   });
 
+  /* ------------------------------------------------ instagram facade
+     Same bargain as the YouTube facades: the card stays a plain link to
+     the post until someone clicks it, so Meta sees nobody who didn't ask
+     to watch.
+
+     We load Instagram's embed iframe directly rather than their embed.js.
+     Their script refuses to size a blockquote injected after load (it
+     leaves the iframe at height=0), and skipping it means no third-party
+     JavaScript executes on the page at all. */
+  document.querySelectorAll('[data-ig]').forEach(function (link) {
+    link.addEventListener('click', function (ev) {
+      var code = link.dataset.ig;
+      if (!code || link.dataset.loaded) return;
+      if (ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.altKey || ev.button !== 0) return;
+      ev.preventDefault();
+      link.dataset.loaded = '1';
+
+      var frame = document.createElement('iframe');
+      frame.src = 'https://www.instagram.com/p/' + code + '/embed/';
+      frame.title = link.dataset.title || 'Instagram post';
+      frame.setAttribute('scrolling', 'no');
+      frame.setAttribute('allowtransparency', 'true');
+      frame.allow = 'encrypted-media; picture-in-picture; web-share';
+      frame.allowFullscreen = true;
+      frame.loading = 'eager';
+
+      link.textContent = '';
+      link.classList.add('is-live');
+      link.appendChild(frame);
+      link.removeAttribute('aria-label');
+    });
+  });
+
   /* ------------------------------------------------ gallery lightbox */
   var box = document.getElementById('lightbox');
   if (box && typeof box.showModal === 'function') {

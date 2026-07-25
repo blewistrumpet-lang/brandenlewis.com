@@ -583,6 +583,55 @@ section { position: relative; }
   border: 0;
 }
 
+/* ---- instagram cards -------------------------------------------------
+   Instagram gives us no thumbnail without an API token, so the resting
+   state is a typographic card rather than a broken image. Once clicked it
+   drops the 16:9 box and lets their embed size itself. */
+.facade--ig {
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(120% 100% at 50% 0%, rgba(201, 162, 39, 0.13), transparent 62%),
+    var(--ink-raise);
+  text-decoration: none;
+}
+.facade--ig .facade__play { position: static; }
+.facade--ig .facade__badge {
+  position: absolute;
+  top: 0.9rem; left: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.62rem;
+  font-weight: 560;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.facade--ig .facade__badge svg { width: 13px; height: 13px; opacity: 0.75; }
+.facade--ig:hover .facade__badge { color: var(--brass); }
+
+/* Instagram's embed page is a fixed-furniture card: header, media, footer.
+   We can't measure it cross-origin, so the ratio below is taken from what
+   their own script produces at this width (402 x 610). */
+.facade.is-live {
+  aspect-ratio: 402 / 610;
+  border: 0;
+  background: #fff;
+  cursor: default;
+  display: block;
+}
+
+.facade__fallback {
+  display: grid;
+  place-items: center;
+  min-height: 8rem;
+  padding: 1.5rem;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
 .vcard__title {
   font-size: 1rem;
   font-weight: 580;
